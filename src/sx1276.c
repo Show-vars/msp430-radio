@@ -100,6 +100,11 @@ void sx1276_init(radio_events_t* events) {
 
   sx1275_reset();
 
+  uint8_t version = sx1276_read(REG_VERSION);
+  uart_write("V");
+  uart_printhex8(version);
+  uart_write(" ");
+
   sx1276_rxchain_calibration();
 
   sx1276_set_opmode(RF_OPMODE_SLEEP);
@@ -807,20 +812,20 @@ void sx1276_write_fifo(uint8_t *data, uint8_t len) {
 uint8_t sx1276_read(uint8_t addr) {
   spi_chipEnable();
 
-  spi_transfer(addr | 0x7f);
+  spi_transfer(addr & 0x7f);
   spi_transfer(0x00);
 
   uint8_t result = spi_buf;
 
   spi_chipDisable();
-
+  
   return result;
 }
 
 void sx1276_read_buffer(uint8_t addr, uint8_t* data, uint8_t len) {
   if (len > 0) {
     spi_chipEnable();
-    spi_send(addr | 0x7f);
+    spi_send(addr & 0x7f);
 
     while (len--) {
       spi_transfer(0x00);
