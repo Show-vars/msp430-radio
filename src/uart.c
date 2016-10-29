@@ -18,7 +18,7 @@ void uart_init() {
   UCA0CTL1 &= ~UCSWRST;             // Clear UCSWRST to enable USCI_A0
 }
 
-void uart_write(char str[]) {
+void uart_write(char* str) {
   for(int i = 0; str[i] != '\0'; i++) {
     while (!(IFG2 & UCA0TXIFG));    // TX buffer ready?
     UCA0TXBUF = str[i];
@@ -27,9 +27,14 @@ void uart_write(char str[]) {
 
 void uart_writen(char* data, int n) {
   while(n--) {
-    while (!(IFG2 & UCA0TXIFG));    // TX buffer ready?
+    while (!(IFG2 & UCA0TXIFG));
     UCA0TXBUF = *data++;
   }
+}
+
+void uart_writec(char data) {
+  while (!(IFG2 & UCA0TXIFG));
+  UCA0TXBUF = data;
 }
 
 void uart_printhex8(uint8_t n) {

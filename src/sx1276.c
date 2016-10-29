@@ -75,7 +75,7 @@ static uint8_t sx1276_get_paselect(uint32_t channel) {
   if(channel < RF_MID_BAND_THRESH ) {
     return RF_PACONFIG_PASELECT_PABOOST;
   } else {
-    return RF_PACONFIG_PASELECT_RFO;
+    return RF_PACONFIG_PASELECT_PABOOST;
   }
 }
 
@@ -99,11 +99,6 @@ void sx1276_init(radio_events_t* events) {
   //TimerInit( &RxTimeoutSyncWord, SX1276OnTimeoutIrq );
 
   sx1275_reset();
-
-  uint8_t version = sx1276_read(REG_VERSION);
-  uart_write("V");
-  uart_printhex8(version);
-  uart_write(" ");
 
   sx1276_rxchain_calibration();
 
@@ -621,13 +616,13 @@ void sx1276_set_rx(uint32_t timeout) {
               sx1276_set_channel(sx1276.Settings.Channel + 41.67e3 );
               break;
             case 6: // 62.5 kHz
-              sx1276_write( REG_LR_TEST2F, 0x40 );
+              //sx1276_write( REG_LR_TEST2F, 0x40 );
               break;
             case 7: // 125 kHz
-              sx1276_write( REG_LR_TEST2F, 0x40 );
+              //sx1276_write( REG_LR_TEST2F, 0x40 );
               break;
             case 8: // 250 kHz
-              sx1276_write( REG_LR_TEST2F, 0x40 );
+              //sx1276_write( REG_LR_TEST2F, 0x40 );
               break;
           }
       } else {
@@ -818,7 +813,7 @@ uint8_t sx1276_read(uint8_t addr) {
   uint8_t result = spi_buf;
 
   spi_chipDisable();
-  
+
   return result;
 }
 

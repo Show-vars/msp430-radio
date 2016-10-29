@@ -7,9 +7,8 @@ void mcu_init() {
   BCSCTL1 = CALBC1_16MHZ;     // Set range
   DCOCTL  = CALDCO_16MHZ;     // Set DCO step + modulation
 
-  P1OUT &= 0x00;               // Shut down everything
+  P1OUT &= 0x00;              // Shut down everything
   P1DIR &= 0x00;
-
 }
 
 void mcu_delayms(uint32_t ms) {

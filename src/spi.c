@@ -5,14 +5,12 @@
 volatile uint8_t spi_buf = 0;
 
 #define SCLK    BIT5
-
 #define SDI     BIT6
 #define SDO     BIT7
-
 #define CS      BIT0
 
-#define INT1    BIT4
-#define INT2    BIT3
+//#define INT1    BIT4
+//#define INT2    BIT3
 
 void spi_init() {
   UCB0CTL1 = UCSWRST;
@@ -30,7 +28,7 @@ void spi_init() {
   P2DIR |= CS;// | CS2;                           // P2.0 CS (chip select)
   P2OUT |= CS;// | CS2;
 
-  P1DIR &= ~(INT1 | INT2);                      // P1.4 and P1.3 as INT (INTERRUPT, not used yet)
+  //P1DIR &= ~(INT1 | INT2);                      // P1.4 and P1.3 as INT (INTERRUPT, not used yet)
 
   UCB0CTL1 &= ~UCSWRST;                         // Initialize USCI state machine
 }
